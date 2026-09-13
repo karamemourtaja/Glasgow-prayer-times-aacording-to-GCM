@@ -79,7 +79,7 @@
     <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">Glasgow Central Mosque</h2>
     <p id="loadingStatusText" class="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1.5">
       <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-      Loading schedule...
+      Fetching live official start times...
     </p>
 
     <div class="w-52 bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full mt-6 overflow-hidden relative">
@@ -98,7 +98,7 @@
       <div>
         <h1 class="text-base font-bold tracking-tight text-slate-900 dark:text-white leading-none flex items-center gap-1.5">
           Glasgow Central Mosque
-          <span id="syncBadge" class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300">Official</span>
+          <span id="syncBadge" class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300">Live Official</span>
         </h1>
         <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1 flex items-center gap-1">
           <svg class="w-3 h-3 text-emerald-600 dark:text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
@@ -110,7 +110,7 @@
     </div>
 
     <div class="flex items-center space-x-2">
-      <button id="refreshBtn" title="Reload Timetable" class="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition shadow-sm">
+      <button id="refreshBtn" title="Re-fetch Timetable" class="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition shadow-sm">
         <svg id="refreshIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
         </svg>
@@ -540,7 +540,7 @@
       10: { Fajr: "04:26", Sunrise: "06:34", Zuhr: "13:20", Asr_I: "16:46", Asr_II: "17:40", Maghrib: "19:55", Isha: "21:49" },
       11: { Fajr: "04:29", Sunrise: "06:36", Zuhr: "13:20", Asr_I: "16:44", Asr_II: "17:38", Maghrib: "19:52", Isha: "21:49" },
       12: { Fajr: "04:32", Sunrise: "06:38", Zuhr: "13:19", Asr_I: "16:42", Asr_II: "17:35", Maghrib: "19:50", Isha: "21:49" },
-      13: { Fajr: "05:18", Sunrise: "06:40", Zuhr: "13:12", Asr_I: "16:34", Asr_II: "17:33", Maghrib: "19:35", Isha: "20:56" },
+      13: { Fajr: "04:34", Sunrise: "06:40", Zuhr: "13:19", Asr_I: "16:40", Asr_II: "17:33", Maghrib: "19:47", Isha: "21:48" },
       14: { Fajr: "04:37", Sunrise: "06:42", Zuhr: "13:19", Asr_I: "16:38", Asr_II: "17:31", Maghrib: "19:44", Isha: "21:48" },
       15: { Fajr: "04:40", Sunrise: "06:44", Zuhr: "13:18", Asr_I: "16:37", Asr_II: "17:29", Maghrib: "19:42", Isha: "21:48" },
       16: { Fajr: "04:42", Sunrise: "06:46", Zuhr: "13:18", Asr_I: "16:35", Asr_II: "17:27", Maghrib: "19:39", Isha: "21:45" },
@@ -557,8 +557,7 @@
       27: { Fajr: "05:09", Sunrise: "07:07", Zuhr: "13:14", Asr_I: "16:14", Asr_II: "17:02", Maghrib: "19:10", Isha: "21:10" },
       28: { Fajr: "05:12", Sunrise: "07:09", Zuhr: "13:14", Asr_I: "16:12", Asr_II: "17:00", Maghrib: "19:07", Isha: "21:07" },
       29: { Fajr: "05:14", Sunrise: "07:11", Zuhr: "13:13", Asr_I: "16:10", Asr_II: "16:58", Maghrib: "19:05", Isha: "21:04" },
-      30: { Fajr: "05:16", Sunrise: "07:13", Zuhr: "13:13", Asr_I: "16:08", Asr_II: "16:56", Maghrib: "19:02", Isha: "21:01" },
-      31: { Fajr: "05:18", Sunrise: "07:15", Zuhr: "13:12", Asr_I: "16:06", Asr_II: "16:54", Maghrib: "19:00", Isha: "20:58" }
+      30: { Fajr: "05:16", Sunrise: "07:13", Zuhr: "13:13", Asr_I: "16:08", Asr_II: "16:56", Maghrib: "19:02", Isha: "21:01" }
     };
 
     let activeTimetable = {};
@@ -571,7 +570,7 @@
       prayers: JSON.parse(localStorage.getItem('glasgow_prayers_active') || '{"Fajr":true,"Zuhr":true,"Asr":true,"Maghrib":true,"Isha":true}')
     };
 
-    async function fetchWithTimeout(url, timeoutMs = 2500) {
+    async function fetchWithTimeout(url, timeoutMs = 3000) {
       const controller = new AbortController();
       const id = setTimeout(() => controller.abort(), timeoutMs);
       try {
@@ -589,7 +588,7 @@
       const badge = document.getElementById('syncBadge');
       const refreshIcon = document.getElementById('refreshIcon');
       const statusText = document.getElementById('loadingStatusText');
-      if (refreshIcon) refreshIcon.classList.add('animate-spin');
+      refreshIcon.classList.add('animate-spin');
 
       if (statusText) statusText.textContent = "Connecting to centralmosque.co.uk...";
 
@@ -601,20 +600,21 @@
         `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`
       ];
 
-      let rawHtml = '';
-      try {
-        const fetchPromises = proxyEndPoints.map(async (endpoint) => {
-          const res = await fetchWithTimeout(endpoint, 2500);
+      const fetchPromises = proxyEndPoints.map(async (endpoint) => {
+        try {
+          const res = await fetchWithTimeout(endpoint, 3000);
           if (res.ok) {
             const text = await res.text();
             if (text && text.includes('<tr')) return text;
           }
-          throw new Error('Invalid proxy response');
-        });
+        } catch (e) {}
+        throw new Error('Proxy failed');
+      });
+
+      let rawHtml = '';
+      try {
         rawHtml = await Promise.any(fetchPromises);
-      } catch (e) {
-        // Fallback gracefully if network/proxies block or timeout
-      }
+      } catch (e) {}
 
       let parsedSuccess = false;
 
@@ -647,7 +647,7 @@
             if (cells.length < 8) return;
 
             const dayMatch = cells[0].match(/^(\d{1,2})/);
-            if (dayMatch && (cells[0].toLowerCase().includes('202') || cells[0].toLowerCase().includes('sep') || cells[0].toLowerCase().includes('oct') || cells[0].toLowerCase().includes('nov') || cells[0].toLowerCase().includes('dec') || cells[0].toLowerCase().includes('jan') || cells[0].toLowerCase().includes('feb') || cells[0].toLowerCase().includes('mar') || cells[0].toLowerCase().includes('apr') || cells[0].toLowerCase().includes('may') || cells[0].toLowerCase().includes('jun') || cells[0].toLowerCase().includes('jul') || cells[0].toLowerCase().includes('aug'))) {
+            if (dayMatch && (cells[0].toLowerCase().includes('202') || cells[0].toLowerCase().includes('sep') || cells[0].toLowerCase().includes('oct'))) {
               const dayNum = parseInt(dayMatch[1], 10);
               parsed[dayNum] = {
                 Fajr: cells[colIdx.fajr] || cells[2],
@@ -672,17 +672,15 @@
         activeTimetable = Object.assign({}, GCM_BASE_DATA);
       }
 
-      if (badge) {
-        badge.textContent = parsedSuccess ? 'Live Official' : 'Official Timetable';
-        badge.className = 'inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300';
-      }
+      badge.textContent = parsedSuccess ? 'Live Official' : 'Official Timetable';
+      badge.className = 'inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300';
 
       if (overlay) {
         overlay.classList.add('opacity-0', 'pointer-events-none');
         setTimeout(() => overlay.remove(), 300);
       }
 
-      if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+      refreshIcon.classList.remove('animate-spin');
       renderTodaySchedule();
       renderCalendar();
     }
@@ -1051,7 +1049,7 @@
           ics.push('BEGIN:VALARM');
           ics.push('ACTION:DISPLAY');
           ics.push(`DESCRIPTION:${p.name} Prayer Begins`);
-          ics.path && ics.push(`TRIGGER:-PT${userSettings.offsetMinutes}M`);
+          ics.push(`TRIGGER:-PT${userSettings.offsetMinutes}M`);
           ics.push('END:VALARM');
 
           ics.push('END:VEVENT');
@@ -1084,7 +1082,7 @@
         } else {
           document.documentElement.classList.remove('dark');
           sunIcon.classList.add('hidden');
-          moonIcon.classList.remove('hidden');
+          moonIcon.classList.add('hidden');
         }
         localStorage.setItem('glasgow_theme', mode);
       };
@@ -1097,7 +1095,7 @@
       });
 
       document.getElementById('refreshBtn').addEventListener('click', () => {
-        const overlayHTML = `
+        document.body.insertAdjacentHTML('afterbegin', `
           <div id="loadingOverlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-50 dark:bg-[#0b111c] px-6 transition-opacity duration-300">
             <div class="relative flex items-center justify-center mb-6">
               <div class="absolute w-28 h-28 rounded-full bg-emerald-500/20 pulse-ring-anim"></div>
@@ -1108,13 +1106,12 @@
               </div>
             </div>
             <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">Glasgow Central Mosque</h2>
-            <p id="loadingStatusText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Refreshing timetable...</p>
+            <p id="loadingStatusText" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Refreshing live timetable...</p>
             <div class="w-52 bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full mt-6 overflow-hidden relative">
               <div class="bg-emerald-500 h-full rounded-full progress-bar-anim absolute"></div>
             </div>
           </div>
-        `;
-        document.body.insertAdjacentHTML('afterbegin', overlayHTML);
+        `);
         fetchGlasgowCentralMosqueLive();
       });
 
@@ -1265,13 +1262,11 @@
 
       ['Fajr', 'Zuhr', 'Asr', 'Maghrib', 'Isha'].forEach(name => {
         const el = document.getElementById(`alert${name}`);
-        if (el) {
-          el.checked = userSettings.prayers[name] !== false;
-          el.addEventListener('change', (e) => {
-            userSettings.prayers[name] = e.target.checked;
-            localStorage.setItem('glasgow_prayers_active', JSON.stringify(userSettings.prayers));
-          });
-        }
+        el.checked = userSettings.prayers[name] !== false;
+        el.addEventListener('change', (e) => {
+          userSettings.prayers[name] = e.target.checked;
+          localStorage.setItem('glasgow_prayers_active', JSON.stringify(userSettings.prayers));
+        });
       });
 
       document.getElementById('testAlertBtn').addEventListener('click', () => {
