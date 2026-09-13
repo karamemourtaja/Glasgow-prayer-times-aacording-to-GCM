@@ -1,7 +1,7 @@
 const CACHE_NAME = 'gcm-prayer-cache-v1';
 const ASSETS_TO_CACHE = [
   './',
-  './GCMT.html',
+  './index.html',
   './manifest.json'
 ];
 
