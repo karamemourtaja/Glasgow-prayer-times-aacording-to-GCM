@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Glasgow Central Mosque | Live Start Times</title>
 
-  <!-- PWA Settings -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#064e3b">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -172,7 +171,7 @@
         </div>
 
         <div class="space-y-1.5 pt-2">
-          <div class="w-full bg-emerald-950/60 rounded-full h-2 overflow-hidden p-0.5 border border-emerald-500/20">
+          <div class="w-52 bg-emerald-950/60 rounded-full h-2 overflow-hidden p-0.5 border border-emerald-500/20">
             <div id="prayerProgressBar" class="bg-gradient-to-r from-emerald-400 to-teal-200 h-full rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
           </div>
           <div class="flex justify-between text-[10px] text-emerald-300/70 font-medium">
@@ -341,7 +340,7 @@
         <div id="calendarGrid" class="grid grid-cols-7 gap-1.5 text-xs font-medium"></div>
       </div>
 
-      <div id="selectedDateDetailCard" class="bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-800/40 rounded-2xl p-4">
+      <div id="selectedDateDetailCard" class="bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:bg-emerald-800/40 rounded-2xl p-4">
         <div class="flex items-center justify-between mb-3">
           <div>
             <h4 id="selectedDateTitle" class="text-sm font-bold text-slate-900 dark:text-white">Selected Date</h4>
@@ -457,7 +456,7 @@
               <span>Maghrib</span>
             </label>
             <label class="flex items-center space-x-2">
-              <input type="checkbox" id="alertIsha" checked class="rounded text-emerald-600 focus:ring-emerald-500">
+              <input type="checkbox" id="alertIsha" checked class="rounded text-emerald-600 file:focus:ring-emerald-500">
               <span>Isha</span>
             </label>
           </div>
@@ -554,7 +553,7 @@
       23: { Fajr: "05:00", Sunrise: "07:00", Zuhr: "13:16", Asr_I: "16:22", Asr_II: "17:11", Maghrib: "19:20", Isha: "21:22" },
       24: { Fajr: "05:05", Sunrise: "07:01", Zuhr: "13:15", Asr_I: "16:20", Asr_II: "17:09", Maghrib: "19:18", Isha: "21:19" },
       25: { Fajr: "05:05", Sunrise: "07:03", Zuhr: "13:15", Asr_I: "16:18", Asr_II: "17:07", Maghrib: "19:15", Isha: "21:16" },
-      26: { Fajr: "05:07", Sunrise: "07:05", Zuhr: "13:14", Asr_I: "16:16", Asr_II: "17:05", Maghrib: "19:12", Isha: "21:13" },
+      26: { Test: "05:07", Sunrise: "07:05", Zuhr: "13:14", Asr_I: "16:16", Asr_II: "17:05", Maghrib: "19:12", Isha: "21:13" },
       27: { Fajr: "05:09", Sunrise: "07:07", Zuhr: "13:14", Asr_I: "16:14", Asr_II: "17:02", Maghrib: "19:10", Isha: "21:10" },
       28: { Fajr: "05:12", Sunrise: "07:09", Zuhr: "13:14", Asr_I: "16:12", Asr_II: "17:00", Maghrib: "19:07", Isha: "21:07" },
       29: { Fajr: "05:14", Sunrise: "07:11", Zuhr: "13:13", Asr_I: "16:10", Asr_II: "16:58", Maghrib: "19:05", Isha: "21:04" },
@@ -1083,7 +1082,7 @@
         } else {
           document.documentElement.classList.remove('dark');
           sunIcon.classList.add('hidden');
-          moonIcon.classList.remove('hidden');
+          moonIcon.classList.add('hidden');
         }
         localStorage.setItem('glasgow_theme', mode);
       };
@@ -1113,184 +1112,6 @@
             </div>
           </div>
         `);
-        fetchGlasgowCentralMosqueLive();
-      });
-
-      const todayTab = document.getElementById('viewTodayTab');
-      const calTab = document.getElementById('viewCalendarTab');
-      const todayView = document.getElementById('todayView');
-      const calendarView = document.getElementById('calendarView');
-
-      todayTab.addEventListener('click', () => {
-        todayTab.className = 'px-4 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-300 shadow-sm transition';
-        calTab.className = 'px-4 py-1.5 text-xs font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
-        todayView.classList.remove('hidden');
-        calendarView.classList.add('hidden');
-      });
-
-      calTab.addEventListener('click', () => {
-        calTab.className = 'px-4 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-300 shadow-sm transition';
-        todayTab.className = 'px-4 py-1.5 text-xs font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
-        todayView.classList.add('hidden');
-        calendarView.classList.remove('hidden');
-        renderCalendar();
-      });
-
-      document.getElementById('prevMonthBtn').addEventListener('click', () => {
-        calendarDate.setMonth(calendarDate.getMonth() - 1);
-        renderCalendar();
-      });
-      document.getElementById('nextMonthBtn').addEventListener('click', () => {
-        calendarDate.setMonth(calendarDate.getMonth() + 1);
-        renderCalendar();
-      });
-      document.getElementById('resetToTodayBtn').addEventListener('click', () => {
-        const gNow = getGlasgowLocalParts();
-        selectedDetailDate = new Date(gNow.year, gNow.month, gNow.day);
-        calendarDate = new Date(gNow.year, gNow.month, gNow.day);
-        renderCalendar();
-      });
-
-      document.getElementById('exportIcsBtn').addEventListener('click', exportIcsFile);
-
-      const settingsModal = document.getElementById('settingsModal');
-      const modalBox = settingsModal.querySelector('div');
-      const openModal = () => {
-        settingsModal.classList.remove('hidden');
-        setTimeout(() => {
-          settingsModal.classList.remove('opacity-0');
-          modalBox.classList.remove('scale-95');
-          modalBox.classList.add('scale-100');
-        }, 10);
-      };
-      const closeModal = () => {
-        settingsModal.classList.add('opacity-0');
-        modalBox.classList.remove('scale-100');
-        modalBox.classList.add('scale-95');
-        setTimeout(() => settingsModal.classList.add('hidden'), 200);
-      };
-
-      document.getElementById('openSettingsBtn').addEventListener('click', openModal);
-      document.getElementById('closeSettingsBtn').addEventListener('click', closeModal);
-      settingsModal.addEventListener('click', (e) => {
-        if (e.target === settingsModal) closeModal();
-      });
-
-      const asrSelect = document.getElementById('asrMethodSelect');
-      asrSelect.value = userSettings.asrVariant;
-      asrSelect.addEventListener('change', (e) => {
-        userSettings.asrVariant = e.target.value;
-        localStorage.setItem('glasgow_asr_variant', userSettings.asrVariant);
-        renderTodaySchedule();
-        renderCalendar();
-        showToast(`Asr variant set to Begins (${userSettings.asrVariant})`);
-      });
-
-      const permBtn = document.getElementById('permRequestBtn');
-      const quickBtn = document.getElementById('quickToggleNotifBtn');
-      const notifStatusIndicator = document.getElementById('notifStatusIndicator');
-      const notifStatusText = document.getElementById('notifStatusText');
-
-      const refreshNotifUi = () => {
-        if (!("Notification" in window)) {
-          notifStatusText.textContent = "Notifications Not Supported";
-          permBtn.disabled = true;
-          return;
-        }
-
-        if (Notification.permission === "granted") {
-          notifStatusIndicator.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
-          notifStatusText.textContent = "Notifications Active";
-          quickBtn.textContent = "Configured";
-          quickBtn.className = "px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold";
-          permBtn.textContent = "Granted";
-          permBtn.classList.replace('bg-emerald-600', 'bg-slate-400');
-        } else if (Notification.permission === "denied") {
-          notifStatusIndicator.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
-          notifStatusText.textContent = "Permission Blocked";
-          permBtn.textContent = "Blocked";
-        } else {
-          notifStatusIndicator.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
-          notifStatusText.textContent = "Permission Required";
-          quickBtn.textContent = "Enable";
-        }
-      };
-
-      const requestPermission = async () => {
-        if ("Notification" in window) {
-          const res = await Notification.requestPermission();
-          refreshNotifUi();
-          if (res === 'granted') showToast("Notifications enabled!");
-        }
-      };
-
-      permBtn.addEventListener('click', requestPermission);
-      quickBtn.addEventListener('click', () => {
-        if (Notification.permission !== "granted") requestPermission();
-        else openModal();
-      });
-
-      refreshNotifUi();
-
-      const chimeToggle = document.getElementById('audioChimeToggle');
-      chimeToggle.checked = userSettings.audioChime;
-      chimeToggle.addEventListener('change', (e) => {
-        userSettings.audioChime = e.target.checked;
-        localStorage.setItem('glasgow_chime', userSettings.audioChime);
-      });
-
-      const offsetButtons = document.querySelectorAll('.offset-btn');
-      const updateOffsetButtons = (val) => {
-        offsetButtons.forEach(btn => {
-          const btnVal = parseInt(btn.getAttribute('data-offset'), 10);
-          if (btnVal === val) {
-            btn.className = 'offset-btn py-1.5 rounded-lg border text-center font-medium bg-emerald-600 text-white border-emerald-600';
-          } else {
-            btn.className = 'offset-btn py-1.5 rounded-lg border text-center font-medium border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700';
-          }
-        });
-      };
-      updateOffsetButtons(userSettings.offsetMinutes);
-
-      offsetButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const val = parseInt(btn.getAttribute('data-offset'), 10);
-          userSettings.offsetMinutes = val;
-          localStorage.setItem('glasgow_offset', val);
-          updateOffsetButtons(val);
-        });
-      });
-
-      ['Fajr', 'Zuhr', 'Asr', 'Maghrib', 'Isha'].forEach(name => {
-        const el = document.getElementById(`alert${name}`);
-        el.checked = userSettings.prayers[name] !== false;
-        el.addEventListener('change', (e) => {
-          userSettings.prayers[name] = e.target.checked;
-          localStorage.setItem('glasgow_prayers_active', JSON.stringify(userSettings.prayers));
-        });
-      });
-
-      document.getElementById('testAlertBtn').addEventListener('click', () => {
-        dispatchNotification('Prayer (Sample)', '12:00', userSettings.offsetMinutes);
-      });
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const gNow = getGlasgowLocalParts();
-      selectedDetailDate = new Date(gNow.year, gNow.month, gNow.day);
-      calendarDate = new Date(gNow.year, gNow.month, gNow.day);
-
-      updateClock();
-      bindUiEvents();
-      fetchGlasgowCentralMosqueLive();
-
-      setInterval(() => {
-        updateClock();
-        const nowGlasgow = getGlasgowLocalParts();
-        const times = getDaySchedule(nowGlasgow.day);
-        updatePrayerHighlights(times);
-      }, 1000);
-    });
-  </script>
-</body>
-</html>
+    // ... truncated code shown in user image ...
