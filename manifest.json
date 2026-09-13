@@ -1,7 +1,7 @@
 {
   "name": "Glasgow Central Mosque Prayer Times",
   "short_name": "GCM Prayer",
-  "start_url": "./GCMT.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0b111c",
   "theme_color": "#064e3b",
